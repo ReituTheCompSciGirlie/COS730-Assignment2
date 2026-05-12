@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>za.ac.up.cos730</groupId>
+    <artifactId>assignment-2</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>COS 730 Assignment 2</name>
+    <description>From Behavioural Models to Optimised Implementation</description>
+
+    <properties>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+    <build>
+        <plugins>
+            <!-- Java compiler -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>11</source>
+                    <target>11</target>
+                </configuration>
+            </plugin>
+
+            <!-- exec-maven-plugin: defines a named execution per task so
+                 you can run any of them with one command, e.g.
+                 mvn exec:java@baseline -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>baseline</id>
+                        <configuration>
+                            <mainClass>baseline.Main</mainClass>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>optimised</id>
+                        <configuration>
+                            <mainClass>optimised.Main</mainClass>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>benchmark</id>
+                        <configuration>
+                            <mainClass>benchmark.Benchmark</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+</project>
