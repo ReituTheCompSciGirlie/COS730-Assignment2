@@ -21,12 +21,11 @@ import java.util.stream.Stream;
  */
 public class Benchmark {
 
-    // ---- benchmark configuration ----
     private static final int WARMUP_RUNS = 2_000;
     private static final int RUNS_PER_TRIAL = 20_000;
     private static final int TIMING_TRIALS = 5;
 
-    // ---- where the source files live (resolved from CWD) ----
+
     private static final String BASELINE_SRC  = "src/main/java/baseline";
     private static final String OPTIMISED_SRC = "src/main/java/optimised";
 
@@ -35,26 +34,19 @@ public class Benchmark {
 
         printMethodology();
 
-        // ---- Build wired-up systems ----
         Systems sys = wireUpSystems();
 
-        // ---- 1. Interactions ----
         IntMetric interactions = measureInteractions(sys);
 
-        // ---- 2. Execution time ----
         TimeMetric time = measureTimings(sys);
 
-        // ---- 3. Code complexity (static analysis of source files) ----
         CodeMetrics baseCode = scanSources(BASELINE_SRC, "baseline");
         CodeMetrics optCode  = scanSources(OPTIMISED_SRC, "optimised");
 
-        // ---- Print everything ----
         printInteractionsTable(interactions);
         printTimingTable(time);
         printCodeComplexityTable(baseCode, optCode);
         printMaintainabilityTable(baseCode, optCode);
-        printJustification(interactions, time, baseCode, optCode);
-        printTradeOffs();
         printFinalSummary(interactions, time, baseCode, optCode);
     }
 
@@ -170,7 +162,7 @@ public class Benchmark {
     private static double max(double[] a) { double m = Double.NEGATIVE_INFINITY; for (double v : a) if (v > m) m = v; return m; }
 
     // =================================================================
-    //  Code complexity scanner (static analysis of .java sources)
+    //  Code complexity scanner
     // =================================================================
 
     private static class CodeMetrics {
@@ -344,9 +336,6 @@ public class Benchmark {
         section("4. Maintainability indicators");
         printRow("Indicator", "Baseline", "Optimised", "Change");
         printSep();
-        // These are derived from the design analysis (Section 7.5 of the report)
-        // and are constant for the two designs - they're stated here as a
-        // mechanically reproducible record alongside the runtime numbers.
         printRow("Direct collaborators of SubmissionController", "4", "6", "+ 2 (via value objects)");
         printRow("Classes that depend on persistence",            "3", "2", "- 33 %");
         printRow("Public methods on EvaluationManager",            "6", "3", "- 50 %");
@@ -356,37 +345,7 @@ public class Benchmark {
         printRow("GRASP Information Expert violations",            "1 (Reviewer.saveScore)", "0", "fixed");
     }
 
-    private static void printJustification(IntMetric inter, TimeMetric time, CodeMetrics base, CodeMetrics opt) {
-        section("Justification of improvements");
-        System.out.println("  Interactions  : " + (inter.base - inter.opt)
-                + " messages eliminated by merged filter pass, removed Reviewer-DB");
-        System.out.println("                  coupling, single-pass evaluate(), and polymorphic notify().");
-        System.out.println("  Execution time: each removed message saves a method dispatch and");
-        System.out.println("                  a stack frame; the smaller hot-path also inlines better.");
-        System.out.printf ("                  Per-submission time fell from %,.0f ns to %,.0f ns (-%.1f %%).%n",
-                time.baseMean, time.optMean, time.pctReduction());
-        System.out.println("  Code complexity: outcome decision logic moved into a decision-table-");
-        System.out.println("                  driven DecisionEngine; max-class CC drops from "
-                + base.maxClassDecisionPoints + " to " + opt.maxClassDecisionPoints + ".");
-        System.out.println("  Maintainability: GRASP Pure Fabrication and Information Expert");
-        System.out.println("                  applied; the decision table is the single source of");
-        System.out.println("                  truth for outcome rules; testability improved 2.5x.");
-    }
-
-    private static void printTradeOffs() {
-        section("Trade-offs introduced");
-        System.out.println("  - Optimised system has more files (" + 4 + " new value objects).");
-        System.out.println("    Each one names a stable domain concept rather than incidental");
-        System.out.println("    complexity.");
-        System.out.println("  - SubmissionController gains 2 direct collaborators, but every");
-        System.out.println("    collaboration is now a single value-returning message rather than");
-        System.out.println("    a sequence of mutating calls. Method-level coupling actually drops");
-        System.out.println("    from 12 calls (baseline) to 6 calls (optimised).");
-        System.out.println("  - DecisionEngine introduces a small layer of indirection (Rule[]).");
-        System.out.println("    Justified by change-impact: adding a new outcome edits 2 files");
-        System.out.println("    instead of 4.");
-    }
-
+   
     private static void printFinalSummary(IntMetric inter, TimeMetric time,
                                           CodeMetrics base, CodeMetrics opt) {
         section("Final summary");
