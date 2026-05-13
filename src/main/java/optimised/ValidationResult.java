@@ -1,9 +1,5 @@
 package optimised;
 
-/**
- * A richer return type so the controller no longer has to play
- * "guess the reason" when the boolean returned is false.
- */
 public class ValidationResult {
     public enum Reason { OK, MISSING_TITLE, BAD_EMAIL, EMPTY_CONTENT,
                          UNSUPPORTED_FORMAT, PAGE_OUT_OF_RANGE }

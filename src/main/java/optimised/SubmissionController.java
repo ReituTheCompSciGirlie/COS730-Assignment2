@@ -2,13 +2,6 @@ package optimised;
 
 import java.util.List;
 
-/**
- * Optimised SubmissionController. Acts as a thin orchestrator only:
- * each step is delegated to a single collaborator and the controller
- * never inspects internal data. Compare with the baseline, which
- * embedded "pick top 3", looped over reviewers, and triggered
- * outcome-specific notifications itself.
- */
 public class SubmissionController {
     private final Validator validator;
     private final SubmissionRepository repo;

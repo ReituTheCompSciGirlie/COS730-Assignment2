@@ -1,9 +1,6 @@
 package optimised;
 
-/**
- * Aggregated evaluation result. The controller no longer has to know
- * how the average / consensus were derived - it sees only the result.
- */
+
 public class EvaluationResult {
     private final double average;
     private final boolean consensus;

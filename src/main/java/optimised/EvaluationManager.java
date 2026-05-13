@@ -2,13 +2,7 @@ package optimised;
 
 import java.util.List;
 
-/**
- * Evaluation manager. Owns scoring AND persistence of those scores
- * (Information Expert). Computes average/consensus in a single pass
- * over the score list. Returns a structured EvaluationResult instead
- * of branching internally - the outcome decision is delegated to
- * the DecisionEngine.
- */
+
 public class EvaluationManager {
     private static final double CONSENSUS_SPREAD = 3.0;
     private final SubmissionRepository repo;

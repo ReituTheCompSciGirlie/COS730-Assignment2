@@ -3,12 +3,7 @@ package optimised;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Reviewer manager - now an Information Expert for everything to do
- * with reviewer selection and assignment. Conflict and workload
- * filtering happen in a SINGLE pass internally, and the manager
- * itself notifies reviewers of their assignments.
- */
+
 public class ReviewerManager {
     private final SubmissionRepository repo;
     private static final int MAX_WORKLOAD = 5;
@@ -16,10 +11,6 @@ public class ReviewerManager {
 
     public ReviewerManager(SubmissionRepository repo) { this.repo = repo; }
 
-    /**
-     * Single message replaces the baseline's getAvailableReviewers /
-     * filterConflicts / checkWorkload / loop-of-assignReview chain.
-     */
     public List<Reviewer> assignReviewers(Submission s) {
         InteractionCounter.tick();
         List<Reviewer> pool = repo.reviewerPool();

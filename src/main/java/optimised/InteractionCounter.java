@@ -1,6 +1,6 @@
 package optimised;
 
-/** Mirror of the baseline interaction counter, in its own package. */
+
 public final class InteractionCounter {
     private static long count = 0;
     private InteractionCounter() {}

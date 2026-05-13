@@ -3,7 +3,7 @@ package optimised;
 import java.util.HashMap;
 import java.util.Map;
 
-/** Same data carrier as baseline; kept identical for fair comparison. */
+
 public class Submission {
     private final String id, title, authorEmail, content, format;
     private final int pageCount;

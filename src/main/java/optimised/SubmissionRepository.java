@@ -5,11 +5,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.ArrayList;
 
-/**
- * Pure Fabrication: a focused persistence component. Only the bits of
- * the system that need to write/read submissions and scores depend on
- * this, so the SubmissionController no longer has a database reference.
- */
 public class SubmissionRepository {
     private final Map<String, Submission> submissions = new HashMap<>();
     private final List<Reviewer> reviewerPool = new ArrayList<>();

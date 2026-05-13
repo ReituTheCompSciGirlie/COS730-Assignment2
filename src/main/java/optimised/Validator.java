@@ -1,9 +1,5 @@
 package optimised;
 
-/**
- * Validator returning a structured result rather than a flat boolean.
- * The controller can now propagate a meaningful error code.
- */
 public class Validator {
     public ValidationResult validate(Submission s) {
         InteractionCounter.tick();

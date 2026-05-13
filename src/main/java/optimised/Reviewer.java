@@ -3,12 +3,7 @@ package optimised;
 import java.util.HashSet;
 import java.util.Set;
 
-/**
- * Reviewer in the optimised model. Crucially the Reviewer no longer
- * holds a Database reference and no longer persists its own scores -
- * that responsibility now belongs to EvaluationManager (Information
- * Expert: EM owns the EvaluationResult, EM persists it).
- */
+
 public class Reviewer {
     private final String id, name;
     private final Set<String> conflictsWith = new HashSet<>();
