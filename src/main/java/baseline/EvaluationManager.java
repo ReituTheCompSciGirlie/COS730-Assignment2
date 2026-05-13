@@ -3,39 +3,33 @@ package baseline;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Baseline evaluation manager. Faithfully reflects the diagram:
- * three separate self-calls (calculateAverage / checkConsensus /
- * applyRules) plus three separate notify* messages depending on the
- * outcome. The decision logic is buried inside applyRules() and
- * scattered into an alt-frame in the diagram.
- */
+
 public class EvaluationManager {
     private final NotificationService notifier;
     private double lastAverage;
     private boolean lastConsensus;
-    private String lastOutcome;     // "ACCEPTED" | "REJECTED" | "REVISION"
+    private String lastOutcome;     
     private final List<Integer> lastScores = new ArrayList<>();
 
     public EvaluationManager(NotificationService notifier) {
         this.notifier = notifier;
     }
 
-    /** Diagram: SC -> EM.startEvaluation() */
+    /**SC -> EM.startEvaluation() */
     public String startEvaluation(Submission s, List<Reviewer> reviewers) {
         InteractionCounter.tick();
         lastScores.clear();
-        // loop [each reviewer]: EM -> Reviewer.submitScore(score)
+      
         for (Reviewer r : reviewers) {
-            int score = r.submitScore(s);    // Reviewer also writes to DB
+            int score = r.submitScore(s);   
             lastScores.add(score);
         }
-        // Three self-calls in sequence (diagram preserves them all)
+        
         calculateAverage();
         checkConsensus();
         applyRules();
 
-        // alt block in diagram: three different notify methods
+       
         switch (lastOutcome) {
             case "ACCEPTED":
                 notifier.notifyAcceptance(s);
@@ -51,7 +45,7 @@ public class EvaluationManager {
         return lastOutcome;
     }
 
-    /** Diagram self-call: EM -> EM.calculateAverage() */
+    /**EM -> EM.calculateAverage() */
     public void calculateAverage() {
         InteractionCounter.tick();
         if (lastScores.isEmpty()) { lastAverage = 0.0; return; }
@@ -60,7 +54,7 @@ public class EvaluationManager {
         lastAverage = sum / (double) lastScores.size();
     }
 
-    /** Diagram self-call: EM -> EM.checkConsensus() */
+    /**EM -> EM.checkConsensus() */
     public void checkConsensus() {
         InteractionCounter.tick();
         if (lastScores.size() < 2) { lastConsensus = true; return; }
@@ -70,7 +64,7 @@ public class EvaluationManager {
         lastConsensus = (max - min) <= 3;
     }
 
-    /** Diagram self-call: EM -> EM.applyRules() */
+    /**EM -> EM.applyRules() */
     public void applyRules() {
         InteractionCounter.tick();
         // Decision logic scattered here - this is what the decision table

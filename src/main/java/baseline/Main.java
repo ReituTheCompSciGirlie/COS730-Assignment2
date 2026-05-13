@@ -9,24 +9,10 @@ import java.util.Set;
 import java.util.TreeSet;
 
 /**
- * COS 730 Assignment 2 - Task 1 (Baseline) test harness.
- *
- * Detailed Main that exercises every decision rule documented in
- * section 4 of the report and verifies the empirical metrics from
- * section 7. Each test prints a [PASS] / [FAIL] line and a final
- * summary counts the totals.
  *
  * Run from VSCode : open this file and click "Run" above main(...).
  * Run from CLI    : mvn exec:java@baseline
  *                   (or:  java -cp target/classes baseline.Main )
- *
- * Tests:
- *   1. Validator rules                    -> Decision Table 1 (V1-V5)
- *   2. Reviewer eligibility rules         -> Decision Table 2 (R1-R3)
- *   3. Outcome resolution rules           -> Decision Table 3 (O1-O4)
- *   4. End-to-end happy path
- *   5. End-to-end invalid path
- *   6. Per-submission interaction count   -> Section 7.2 of the report
  */
 public class Main {
 
@@ -47,9 +33,7 @@ public class Main {
         printSummary();
     }
 
-    // ============================================================
     // Test 1 - Validator rules (Decision Table 1: V1-V5)
-    // ============================================================
     private static void testValidatorRules() {
         section("Test 1: Validator rules - Decision Table 1 (V1-V5)");
         Validator v = new Validator();
@@ -91,9 +75,8 @@ public class Main {
         assertTrue("OK : DOCX is also a supported format -> valid", v.validateFormat(docx));
     }
 
-    // ============================================================
+
     // Test 2 - Reviewer eligibility (Decision Table 2: R1-R3)
-    // ============================================================
     private static void testReviewerFilteringRules() {
         section("Test 2: Reviewer eligibility - Decision Table 2 (R1-R3)");
         Database db = new Database();
@@ -124,9 +107,8 @@ public class Main {
         assertTrue ("R5 included",                              filtered.contains(r5));
     }
 
-    // ============================================================
+
     // Test 3 - Outcome resolution (Decision Table 3: O1-O4)
-    // ============================================================
     private static void testOutcomeRules() {
         section("Test 3: Outcome resolution - Decision Table 3 (O1-O4)");
         Validator v = new Validator();
@@ -160,9 +142,8 @@ public class Main {
         System.out.println("    First example IDs  : " + firstExample);
     }
 
-    // ============================================================
+    
     // Test 4 - End-to-end happy path
-    // ============================================================
     private static void testHappyPathPipeline() {
         section("Test 4: End-to-end happy path");
         Database db = new Database();
@@ -200,9 +181,7 @@ public class Main {
         System.out.println("    Elapsed (ns)         : " + (t1 - t0));
     }
 
-    // ============================================================
     // Test 5 - End-to-end invalid path
-    // ============================================================
     private static void testInvalidPathPipeline() {
         section("Test 5: End-to-end invalid path");
         Database db = new Database();
@@ -231,9 +210,7 @@ public class Main {
                 + InteractionCounter.get() + " (just UI -> SC -> Validator)");
     }
 
-    // ============================================================
     // Test 6 - Headline metric: interaction count
-    // ============================================================
     private static void testInteractionCount() {
         section("Test 6: Per-submission interaction count (report Section 7.2)");
         Database db = new Database();
@@ -256,17 +233,8 @@ public class Main {
                 23L, count);
     }
 
-    // ============================================================
+ 
     // Helpers
-    // ============================================================
-
-    /**
-     * Standard reviewer pool used by the integration tests:
-     *   R1..R6 with workloads {1, 2, 3, 0, 1, 2}; R5 has a conflict
-     *   with researcher@example.org. After filtering the eligible
-     *   reviewers are R1, R2, R3, R4, R6; the controller picks the
-     *   first three (R1, R2, R3).
-     */
     private static void seedReviewers(Database db) {
         for (int i = 1; i <= 6; i++) {
             Reviewer r = new Reviewer("R" + i, "Reviewer " + i, i % 4, db);

@@ -1,13 +1,9 @@
 package baseline;
 
-/**
- * Validator. Returns a thin boolean valid/invalid as in the diagram,
- * losing the "why was it invalid" information - one of the design
- * weaknesses we'll fix in the optimised version.
- */
+
 public class Validator {
 
-    /** Diagram: SC -> Validator.validateFormat(data) -> true/false */
+    /**SC -> Validator.validateFormat(data)*/
     public boolean validateFormat(Submission s) {
         InteractionCounter.tick();
         if (s == null) return false;

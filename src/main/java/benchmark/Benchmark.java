@@ -13,20 +13,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Stream;
 
 /**
- * COS 730 Assignment 2 - Task 6 Empirical Comparison Harness
- * ==========================================================
- * Compares the baseline (Task 1) and optimised (Task 5) systems against
- * every metric category required by the assignment brief:
- *
- *   1. Number of method calls / interactions  (runtime)
- *   2. Execution time, repeated runs           (runtime)
- *   3. Code complexity                         (static analysis of sources)
- *   4. Maintainability indicators              (qualitative + quantitative)
- *
- * The output is a self-contained terminal report consisting of:
- *   - a Methodology header
- *   - per-metric comparison tables
- *   - a Justification & Trade-offs summary
  *
  * Run:
  *   mvn exec:java@benchmark

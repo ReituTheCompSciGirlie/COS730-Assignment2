@@ -3,15 +3,13 @@ package baseline;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Plain submission data carrier (researcher artefact).
- */
+
 public class Submission {
     private final String id;
     private final String title;
     private final String authorEmail;
     private final String content;
-    private final String format;        // e.g. "PDF", "DOCX"
+    private final String format;        
     private final int pageCount;
     private final Map<String, Object> metadata = new HashMap<>();
 
