@@ -83,7 +83,7 @@ public class Benchmark {
                 new optimised.SubmissionController(oV, optRepo, oRm, oEm, oDe, oNs);
         s.optUi = new optimised.UI(oSc);
 
-        // Warm-up
+        
         for (int i = 0; i < WARMUP_RUNS; i++) {
             s.baseUi.submitResearchOutput(makeBaselineSubmission(i));
             s.optUi.submitResearchOutput(makeOptimisedSubmission(i));
@@ -168,9 +168,9 @@ public class Benchmark {
     private static class CodeMetrics {
         String pkg;
         int files;
-        int totalLoc;          // total lines of code (production only)
+        int totalLoc;          
         int totalPublicMethods;
-        int totalDecisionPoints;   // sum of if/else if/for/while/case/&&/||
+        int totalDecisionPoints;   
         int maxClassDecisionPoints;
         String mostComplexClass = "(none)";
     }
@@ -180,8 +180,7 @@ public class Benchmark {
         m.pkg = pkg;
         Path p = Paths.get(dir);
         if (!Files.exists(p)) {
-            // Fall back to common alternate locations so the benchmark works
-            // when run from project-root or from the build directory.
+            
             String[] alt = { "../" + dir, "../../" + dir };
             for (String a : alt) {
                 if (Files.exists(Paths.get(a))) { p = Paths.get(a); break; }
@@ -193,8 +192,7 @@ public class Benchmark {
             return m;
         }
 
-        // Patterns for the lightweight static analysis
-        Pattern publicMethod = Pattern.compile(
+         Pattern publicMethod = Pattern.compile(
                 "^\\s*public\\s+(?!class|enum|interface)[^;]*\\([^)]*\\)\\s*\\{?",
                 Pattern.MULTILINE);
         Pattern decisionPt = Pattern.compile(
